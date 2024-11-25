@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  name: WedDemoPool
+
+steps:
+  # Step 1: Print the current directory for debugging
+  - script: |
+      echo "Current directory is: $(Build.SourcesDirectory)"
+      echo %cd%
+    displayName: 'Print current directory'
+
+  - script: |
+      echo "Full path to pom.xml: $(Build.SourcesDirectory)\pom.xml"
+    displayName: 'Verify pom.xml path'
+
+  - script: |
+      if exist "$(Build.SourcesDirectory)\com.demo.automation\pom.xml" (
+          echo "pom.xml found"
+      ) else (
+          echo "pom.xml not found"
+      )
+    displayName: 'Check pom.xml existence'
+
+  # Step 2: Restore dependencies using mvn
+  - script: |
+      mvn clean install -f "$(Build.SourcesDirectory)\com.demo.automation" -DskipTests=true
+    displayName: 'Restore dependencies'
+
+  # Optional: Restore dependencies with debug (if needed for troubleshooting)
+  - script: |
+      mvn -X clean install -f "$(Build.SourcesDirectory)\com.demo.automation" -DskipTests=true
+    displayName: 'Restore dependencies with debug'
