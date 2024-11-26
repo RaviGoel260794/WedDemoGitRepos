@@ -12,4 +12,5 @@ public class HomePage {
 	//good night
 	//tuesdayNight
 	//TuesdayLast
+	//VerifiedChanges
 }
